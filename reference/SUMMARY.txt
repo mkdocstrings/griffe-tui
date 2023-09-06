@@ -1,0 +1,4 @@
+* [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> griffe_tui](griffe_tui/index.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> app](griffe_tui/app.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> cli](griffe_tui/cli.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> markdown](griffe_tui/markdown.md)

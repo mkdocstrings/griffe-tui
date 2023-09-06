@@ -1,0 +1,7 @@
+goals:
+  1000:
+    name: GraviFridge User Manual
+    features:
+    - name: "[Project] A textual user interface for Griffe."
+      ref: /
+      since: 2023/09/06
