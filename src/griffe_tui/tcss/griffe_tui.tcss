@@ -1,0 +1,8 @@
+Input {
+    margin-top: 1;
+    margin-bottom: 1;
+}
+
+MarkdownViewer {
+    border-top: inner $boost;
+}
