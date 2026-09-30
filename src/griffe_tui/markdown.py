@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from griffe2md.main import prepare_context, prepare_env
+from griffe2md import prepare_context, prepare_env
 
 if TYPE_CHECKING:
     from griffe import Object

@@ -26,7 +26,7 @@ logger = logging.getLogger(f"mkdocs.logs.{__name__}")
 def human_readable_amount(amount: int) -> str:  # noqa: D103
     str_amount = str(amount)
     if len(str_amount) >= 4:  # noqa: PLR2004
-        return f"{str_amount[:len(str_amount)-3]},{str_amount[-3:]}"
+        return f"{str_amount[: len(str_amount) - 3]},{str_amount[-3:]}"
     return str_amount
 
 
@@ -201,6 +201,6 @@ goals = funding_goals(data_source, funding=current_funding)
 ongoing_goals = [goal for goal in goals.values() if not goal.complete]
 unreleased_features = sorted(
     (ft for ft in feature_list(ongoing_goals) if ft.since),
-    key=lambda ft: cast(date, ft.since),
+    key=lambda ft: cast("date", ft.since),
     reverse=True,
 )

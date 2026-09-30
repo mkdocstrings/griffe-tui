@@ -84,11 +84,13 @@ class GriffeMarkdownViewer(MarkdownViewer):
             id=id,
             classes=classes,
             parser_factory=parser_factory,
+            open_links=False,
         )
         self.griffe_loader = griffe_loader
 
     async def _on_markdown_link_clicked(self, message: Markdown.LinkClicked) -> None:
         message.prevent_default()
+        message.stop()
         anchor = message.href
         if anchor.startswith("#"):
             # Slugify the anchor to match Textual slugs.
@@ -99,9 +101,11 @@ class GriffeMarkdownViewer(MarkdownViewer):
                 except Exception:
                     logger.exception(f"Couldn't load {anchor} as Markdown")
                 else:
-                    self.document.update(markdown)
+                    await self.document.update(markdown)
+                    self.scroll_home(animate=False)
+        elif anchor.startswith(("https://", "http://")):
+            self.app.open_url(anchor)
         else:
-            # Try default behavior of the viewer.
             await self.go(anchor)
 
 
@@ -133,18 +137,14 @@ class GriffeTUIApp(App):
         yield GriffeMarkdownViewer(WELCOME, griffe_loader=self.griffe_loader)
         yield Footer()
 
-    def action_toggle_dark(self) -> None:
-        """An action to toggle dark mode."""
-        self.dark = not self.dark
-
     @on(Input.Submitted)
-    def update_view(self, event: Input.Submitted) -> None:
-        """Update Mardown view."""
+    async def update_view(self, event: Input.Submitted) -> None:
+        """Update the Markdown view."""
         try:
             markdown = _to_markdown(self.griffe_loader, event.value)
         except Exception:
             logger.exception(f"Couldn't load {event.value} as Markdown")
         else:
             viewer = self.query_one(GriffeMarkdownViewer)
-            viewer.document.update(markdown)
-            viewer.scroll_to_widget(self.query_one("#block1"), top=True)
+            await viewer.document.update(markdown)
+            viewer.scroll_home(animate=False)
