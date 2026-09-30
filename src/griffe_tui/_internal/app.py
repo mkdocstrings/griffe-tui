@@ -16,8 +16,6 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-"""Definition of the Textual app application."""
-
 from __future__ import annotations
 
 import builtins
@@ -31,7 +29,7 @@ from textual import on
 from textual.app import App, ComposeResult, CSSPathType
 from textual.widgets import Footer, Header, Input, Markdown, MarkdownViewer
 
-from griffe_tui.markdown import to_markdown
+from griffe_tui._internal.markdown import to_markdown as _render_markdown
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -40,9 +38,9 @@ if TYPE_CHECKING:
     from textual.driver import Driver
 
 
-logger = logging.getLogger(__name__)
+_logger = logging.getLogger(__name__)
 
-WELCOME = """
+_WELCOME = """
 # Welcome
 
 To view documentation for a package, module, class,
@@ -63,11 +61,11 @@ Try clicking on one of them to show its documentation.
 )
 
 
-builtin_types = set(vars(builtins))
+_builtin_types = set(vars(builtins))
 
 
 def _to_markdown(loader: GriffeLoader, path: str) -> str:
-    if path in builtin_types:
+    if path in _builtin_types:
         path = f"builtins.{path}"
     try:
         obj = loader.modules_collection[path]
@@ -75,13 +73,16 @@ def _to_markdown(loader: GriffeLoader, path: str) -> str:
         loader.load(path.split(".", 1)[0])
         loader.resolve_aliases(external=True, implicit=False)
         obj = loader.modules_collection[path]
-    return to_markdown(obj)
+    return _render_markdown(obj)
 
 
 class GriffeMarkdownViewer(MarkdownViewer):
     """A Markdown viewer with custom logic for links."""
 
-    def __init__(  # noqa: D107
+    griffe_loader: GriffeLoader
+    """Loader used to resolve object links."""
+
+    def __init__(
         self,
         markdown: str | None = None,
         *,
@@ -114,7 +115,7 @@ class GriffeMarkdownViewer(MarkdownViewer):
                     # Anchor not on the page: it's another object, load it and render it.
                     markdown = _to_markdown(self.griffe_loader, anchor.lstrip("#"))
                 except Exception:
-                    logger.exception(f"Couldn't load {anchor} as Markdown")
+                    _logger.exception(f"Couldn't load {anchor} as Markdown")
                 else:
                     await self.document.update(markdown)
                     self.scroll_home(animate=False)
@@ -127,12 +128,18 @@ class GriffeMarkdownViewer(MarkdownViewer):
 class GriffeTUIApp(App):
     """A Textual app to visualize docs collected by Griffe."""
 
-    CSS_PATH = Path(__file__).parent / "tcss" / "griffe_tui.tcss"
+    CSS_PATH = Path(__file__).parent.parent / "tcss" / "griffe_tui.tcss"
+    """Stylesheet used by the app."""
+
     BINDINGS = [  # noqa: RUF012
         ("d", "toggle_dark", "Toggle dark mode"),
     ]
+    """Keyboard shortcut for switching themes."""
 
-    def __init__(  # noqa: D107
+    griffe_loader: GriffeLoader
+    """Loader used to find Python objects."""
+
+    def __init__(
         self,
         driver_class: type[Driver] | None = None,
         css_path: CSSPathType | None = None,
@@ -149,7 +156,7 @@ class GriffeTUIApp(App):
         """Create child widgets for the app."""
         yield Header()
         yield Input(placeholder="Enter a Python object path...")
-        yield GriffeMarkdownViewer(WELCOME, griffe_loader=self.griffe_loader)
+        yield GriffeMarkdownViewer(_WELCOME, griffe_loader=self.griffe_loader)
         yield Footer()
 
     @on(Input.Submitted)
@@ -158,7 +165,7 @@ class GriffeTUIApp(App):
         try:
             markdown = _to_markdown(self.griffe_loader, event.value)
         except Exception:
-            logger.exception(f"Couldn't load {event.value} as Markdown")
+            _logger.exception(f"Couldn't load {event.value} as Markdown")
         else:
             viewer = self.query_one(GriffeMarkdownViewer)
             await viewer.document.update(markdown)

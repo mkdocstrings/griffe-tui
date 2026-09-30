@@ -23,6 +23,8 @@ A textual user interface for Griffe.
 
 from __future__ import annotations
 
+from griffe_tui._internal.app import GriffeMarkdownViewer, GriffeTUIApp
 from griffe_tui._internal.cli import get_parser, main
+from griffe_tui._internal.markdown import to_markdown
 
-__all__: list[str] = ["get_parser", "main"]
+__all__: list[str] = ["GriffeMarkdownViewer", "GriffeTUIApp", "get_parser", "main", "to_markdown"]

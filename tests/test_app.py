@@ -25,7 +25,7 @@ from typing import TYPE_CHECKING
 
 from textual.widgets import Input, Markdown
 
-from griffe_tui.app import GriffeMarkdownViewer, GriffeTUIApp
+from griffe_tui import GriffeMarkdownViewer, GriffeTUIApp
 
 if TYPE_CHECKING:
     import pytest
