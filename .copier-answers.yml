@@ -1,5 +1,5 @@
-# Changes here will be overwritten by Copier
-_commit: 1.5.0
+# Changes here will be overwritten by Copier.
+_commit: 1.15.3
 _src_path: gh:pawamoy/copier-uv
 author_email: dev@pawamoy.fr
 author_fullname: Timothée Mazzucotelli
@@ -7,13 +7,9 @@ author_username: pawamoy
 copyright_date: '2023'
 copyright_holder: Timothée Mazzucotelli
 copyright_holder_email: dev@pawamoy.fr
-copyright_license: ISC License
-insiders: true
-insiders_email: insiders@pawamoy.fr
-insiders_repository_name: griffe-tui
+copyright_license: ISC
 project_description: A textual user interface for Griffe.
 project_name: Griffe TUI
-public_release: true
 python_package_command_line_name: griffe-tui
 python_package_distribution_name: griffe-tui
 python_package_import_name: griffe_tui

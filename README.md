@@ -1,10 +1,9 @@
 # Griffe TUI
 
 [![ci](https://github.com/mkdocstrings/griffe-tui/workflows/ci/badge.svg)](https://github.com/mkdocstrings/griffe-tui/actions?query=workflow%3Aci)
-[![documentation](https://img.shields.io/badge/docs-mkdocs-708FCC.svg?style=flat)](https://mkdocstrings.github.io/griffe-tui/)
+[![documentation](https://img.shields.io/badge/docs-zensical-FF9100.svg?style=flat)](https://mkdocstrings.github.io/griffe-tui/)
 [![pypi version](https://img.shields.io/pypi/v/griffe-tui.svg)](https://pypi.org/project/griffe-tui/)
-[![gitpod](https://img.shields.io/badge/gitpod-workspace-708FCC.svg?style=flat)](https://gitpod.io/#https://github.com/mkdocstrings/griffe-tui)
-[![gitter](https://badges.gitter.im/join%20chat.svg)](https://app.gitter.im/#/room/#griffe-tui:gitter.im)
+[![gitter](https://img.shields.io/badge/matrix-chat-4DB798.svg?style=flat)](https://app.gitter.im/#/room/#griffe-tui:gitter.im)
 
 A textual user interface for Griffe.
 100% offline, beautiful Python API docs, in your terminal,
@@ -34,3 +33,8 @@ griffe-tui
 ```
 
 And enjoy the TUI!
+
+## Sponsors
+
+<!-- sponsors-start -->
+<!-- sponsors-end -->
